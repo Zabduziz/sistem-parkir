@@ -4,9 +4,21 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.20",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.11",
+    "pg": "^8.20.0"
+  },
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "seed": "bun run --hot src/db/seed.ts"
   }
 }
