@@ -23,8 +23,12 @@ No test/lint/typecheck scripts are configured.
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| POST   | `/auth/register` | No | Register new user (JSON: nama, username, password, role?) |
+| POST   | `/auth/register` | Admin | Register new user (JSON: nama, username, password, role?) |
 | POST   | `/auth/login`    | No | Login, returns JWT (JSON: username, password) |
+| GET    | `/users` | Admin | List all users |
+| POST   | `/users` | Admin | Create user (JSON: nama, username, password, role?) |
+| PUT    | `/users/:id` | Admin | Update user (JSON: nama?, username?, password?, role?) |
+| DELETE | `/users/:id` | Admin | Delete user (blocked for self / users with parkir records) |
 | POST   | `/detection` | Yes | Record vehicle entry (multipart: platNomor, userId, confidencePlat, faceEmbedding, gambar) |
 | GET    | `/parkir?plateNumber=X` | Yes | Check latest record for a plate |
 | PUT    | `/parkir` | Yes | Record vehicle exit (multipart: plateNumber, similarity, gambarKeluar) |
@@ -38,9 +42,10 @@ No test/lint/typecheck scripts are configured.
 src/
   index.ts          # entrypoint, mounts all route modules
   middleware/
-    auth.ts         # JWT auth middleware (HS256, expects Bearer token)
+    auth.ts         # JWT auth middleware + adminMiddleware (role check)
   routes/
-    auth.ts         # POST /auth/register, POST /auth/login
+    auth.ts         # POST /auth/register (admin only), POST /auth/login
+    users.ts        # GET/POST/PUT/DELETE /users (admin only user CRUD)
     detection.ts    # POST /detection
     parkir.ts       # GET /parkir, PUT /parkir
     history.ts      # GET /history

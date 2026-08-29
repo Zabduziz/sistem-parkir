@@ -39,3 +39,13 @@ export const parkir = pgTable("parkir", {
     .references(() => users.id)
     .notNull(),
 });
+
+export const gambarValidasiGagal = pgTable("gambar_validasi_gagal", {
+  id: serial("id").primaryKey(),
+  platNomor: varchar("plat_nomor", { length: 20 }).notNull(),
+  gambarGagalPath: text("gambar_gagal_path").notNull(),
+  similarity: real("similarity"),
+  waktuValidasi: timestamp("waktu_validasi", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});

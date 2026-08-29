@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: myskripsi
+      POSTGRES_PASSWORD: myskripsiparkir
+      POSTGRES_DB: parkir_db
+    ports:
+      - "5441:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://myskripsi:myskripsiparkir@db:5432/parkir_db
+      JWT_SECRET: sistem-parkir-jwt-secret-2025
+      URL_LOCAL_PI: http://192.168.0.101
+      TAILSCALE_PI: http://100.81.172.7
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+  uploads:

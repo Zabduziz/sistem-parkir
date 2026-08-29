@@ -3,9 +3,12 @@ import { db } from "../db/pool.ts";
 import { users } from "../db/schema.ts";
 import { eq } from "drizzle-orm";
 import { sign } from "hono/jwt";
+import { authMiddleware, adminMiddleware } from "../middleware/auth.ts";
 
 const app = new Hono();
 const JWT_SECRET = process.env.JWT_SECRET!;
+
+app.use("/register", authMiddleware, adminMiddleware);
 
 app.post("/register", async (c) => {
   try {
